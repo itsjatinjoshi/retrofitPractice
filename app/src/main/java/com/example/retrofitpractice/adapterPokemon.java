@@ -1,11 +1,13 @@
 package com.example.retrofitpractice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,12 +23,17 @@ public class adapterPokemon extends RecyclerView.Adapter<adapterPokemon.ViewHold
     private ArrayList<Post> posts;
     private Context context;
 
+    LayoutInflater inflater;
+    private View.OnClickListener itemlisten;
+
     public adapterPokemon(ArrayList<Post> posts, Context context) {
         this.posts = posts;
         this.context = context;
     }
 
-
+    public void setOnItemClickListener(View.OnClickListener itemClickListener) {
+        itemlisten = itemClickListener;
+    }
 
 
     @NonNull
@@ -44,6 +51,7 @@ public class adapterPokemon extends RecyclerView.Adapter<adapterPokemon.ViewHold
 
         Glide.with(context).asBitmap().load(posts.get(position).getImage()).into(holder.ivPokeImage);
         holder.tvPokeName.setText(posts.get(position).getName());
+
 
     }
 
@@ -66,7 +74,23 @@ public class adapterPokemon extends RecyclerView.Adapter<adapterPokemon.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Post clickedDataItem = posts.get(pos);
+                        Intent intent = new Intent(context, Pkemondesc.class);
+                        intent.putExtra("name", posts.get(pos).getName());
+                        intent.putExtra("image", posts.get(pos).getImage());
+                        intent.putExtra("type", posts.get(pos).getType());
+                        intent.putExtra("ability", posts.get(pos).getAbility());
+                        intent.putExtra("height", posts.get(pos).getHeight());
+                        intent.putExtra("weight", posts.get(pos).getWeight());
+                        intent.putExtra("description", posts.get(pos).getDescription());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                        Toast.makeText(view.getContext(), "You clicked" + clickedDataItem.getName(),
+                                Toast.LENGTH_LONG).show();
 
+                    }
                 }
             });
 

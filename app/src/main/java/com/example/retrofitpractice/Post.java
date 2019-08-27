@@ -1,9 +1,12 @@
 package com.example.retrofitpractice;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+public class Post  {
 
    @SerializedName("name")
    @Expose
@@ -32,6 +35,17 @@ public class Post {
    @SerializedName("description")
    @Expose
    private String description;
+
+
+   public Post(String name, String image, String type, String ability, String height, String weight, String description) {
+      this.name = name;
+      this.image = image;
+      this.type = type;
+      this.ability = ability;
+      this.height = height;
+      this.weight = weight;
+      this.description = description;
+   }
 
    public String getName() {
       return name;
@@ -88,4 +102,6 @@ public class Post {
    public void setDescription(String description) {
       this.description = description;
    }
+
+
 }
